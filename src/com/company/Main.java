@@ -20,7 +20,12 @@ public class Main {
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                executeCommand(line, lightsGrid);
+                try {
+                    executeCommand(line, lightsGrid);
+                } catch (OutOfBoundsException e) {
+                    System.out.println(e);
+                    System.out.println("Bad coordinates: " + line + "\nSkip to next input line");
+                }
             }
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -35,8 +40,7 @@ public class Main {
         Grid.Coords[] coords = extractCoords(splitLine);
 
         if (coords.length < 2) {
-            System.out.println("Error parsing coordinates");
-            System.exit(0);
+            return;
         }
 
         processCommand(splitLine, coords, grid);
